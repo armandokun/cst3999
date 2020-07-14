@@ -15,6 +15,7 @@
                     'params': {
                         'clientId': this.$user.clientId,
                         'clientSecret': this.$user.clientSecret,
+                        'debit': 50
                     },
                     'id': AUTHORIZE_ID
                 };
@@ -84,12 +85,10 @@
             let ref = this;
             this.$websocket.onopen = async function () {
                 console.log('WebSocket is connected');
+                await ref.authorize()
+                    .then(cortexToken => {sessionStorage.setItem('cortexToken', cortexToken)});
                 await ref.queryHeadsetId()
                     .then(headsetID => sessionStorage.setItem('headsetID', headsetID));
-                await ref.authorize()
-                    .then(cortexToken => sessionStorage.setItem('cortexToken', cortexToken));
-
-
             };
 
             this.$websocket.onmessage = function (e) {
@@ -104,6 +103,10 @@
 </script>
 
 <style>
+    * {
+        font-family: Roboto, "Helvetica Neue", "Times New Roman", sans-serif;
+    }
+
     #app {
         font-family: "Roboto M", Helvetica, Arial, sans-serif;
         -webkit-font-smoothing: antialiased;
@@ -111,6 +114,31 @@
         text-align: center;
         color: #2c3e50;
         margin-top: 20px;
+    }
+
+    ul {
+        margin: 0;
+        padding: 0;
+    }
+
+    li {
+        background-color: #CCC7C7;
+        margin-top: 10px;
+        padding: 15px 20px;
+        font-family: "Roboto", "Helvetica Neue", "Times New Roman", sans-serif;
+        /*font-size: 18px;*/
+        font-weight: 500;
+        border-radius: 5px;
+        color: white;
+        border: none;
+        list-style-type: none;
+        text-align: left;
+        transition: background-color 0.25s;
+        cursor: pointer;
+    }
+
+    li:hover {
+        background-color: #b4b3b3;
     }
 
     a {
@@ -127,7 +155,7 @@
         color: #2BE4AD;
     }
 
-    button {
+    .primary-btn {
         width: 100%;
         padding: 10px 20px;
         background-color: #2BE4AD;
@@ -143,11 +171,11 @@
         transition: background-color 0.25s;
     }
 
-    button:hover {
+    .primary-btn:hover {
         background-color: #6be5b4;
     }
 
-    button:active {
+    .primary-btn:active {
         background-color: #02bb89;
     }
 </style>

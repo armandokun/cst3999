@@ -1,7 +1,5 @@
 <template>
 <div class="changeProfile">
-<h1>CHANGE PROFILE</h1>
-    <hr>
     <NavigationBar/>
 </div>
 </template>

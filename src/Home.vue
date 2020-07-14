@@ -8,7 +8,7 @@
                        v-model.trim="profileName"
                        placeholder="Enter New Profile Name">
             </label>
-            <button @click="createProfile()">Create New Profile</button>
+            <button class="primary-btn" @click="createProfile()">Create New Profile</button>
             <div v-bind:key="profile.id" v-for="profile in profiles">
                 <ul>
                     <li v-bind:key="profile.name"
@@ -215,30 +215,6 @@
 </script>
 
 <style scoped>
-    ul {
-        margin: 0;
-        padding: 0;
-    }
-
-    li {
-        background-color: #CCC7C7;
-        margin-top: 10px;
-        padding: 15px 20px;
-        font-family: "Roboto", "Helvetica Neue", "Times New Roman", sans-serif;
-        /*font-size: 18px;*/
-        font-weight: 500;
-        border-radius: 5px;
-        color: white;
-        border: none;
-        list-style-type: none;
-        text-align: left;
-        transition: background-color 0.25s;
-        cursor: pointer;
-    }
-
-    li:hover {
-        background-color: #b4b3b3;
-    }
 
     hr {
         grid-column: 3 / 4;

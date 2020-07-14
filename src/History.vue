@@ -1,7 +1,5 @@
 <template>
 <div class="history">
-    <h1>HISTORY</h1>
-    <hr>
     <NavigationBar/>
 </div>
 </template>
