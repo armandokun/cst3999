@@ -88,8 +88,12 @@
                                 resolve(sessionId);
                             }
                         } catch (error) {
-                            console.log(msgEvent.data);
-                            reject(error);
+                            if(sessionStorage.getItem('sessionID')) {
+                                resolve(sessionStorage.getItem('sessionID'));
+                            } else {
+                                console.log(msgEvent.data);
+                                reject(error);
+                            }
                         }
                     };
                 });
@@ -126,9 +130,10 @@
                                 let currentThreshold = parsedResult['result']['currentThreshold'];
                                 let lastTrainingScore = parsedResult['result']['lastTrainingScore'];
 
-                                //Round the numbers to two after the .
+                                //Round the numbers and save it to component's data
                                 self.lastTrainingScore = Math.round(lastTrainingScore * 100) / 100;
                                 self.currentThreshold = Math.round(currentThreshold * 100) / 100;
+
                                 resolve(parsedResult);
                             }
                         } catch (error) {
@@ -140,7 +145,9 @@
             }
         },
         async mounted() {
-            await this.createSession().then(sessionID => sessionStorage.setItem('sessionID', sessionID));
+            await this.createSession().then(sessionID => {
+                sessionStorage.setItem('sessionID', sessionID);
+            });
             await this.mentalCommandTrainingThreshold();
         }
     }
