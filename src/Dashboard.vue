@@ -19,6 +19,10 @@
                 <h4 class="tab-title">Last Training Score</h4>
                 <div class="tab-score">{{lastTrainingScore}}</div>
             </div>
+            <div class="tabs" id="tab-3">
+                <h4 class="tab-title">Meditations Completed</h4>
+                <div class="tab-score">{{totalMeditationsCompleted}}</div>
+            </div>
         </div>
     </div>
 </template>
@@ -36,22 +40,9 @@
                     minutes: 10,
                     title: 'Ocean'
                 },
-                tabs: [
-                    {
-                        title: 'Current Threshold',
-                        score: this.currentThreshold
-                    },
-                    {
-                        title: 'Last Training Score',
-                        score: this.lastTrainingScore
-                    },
-                    // {
-                    //     title: 'Medit8s Completed',
-                    //     score: 0
-                    // }
-                ],
                 currentThreshold: 0,
-                lastTrainingScore: 0
+                lastTrainingScore: 0,
+                totalMeditationsCompleted: 0
             }
         },
         methods: {
@@ -88,7 +79,7 @@
                                 resolve(sessionId);
                             }
                         } catch (error) {
-                            if(sessionStorage.getItem('sessionID')) {
+                            if (sessionStorage.getItem('sessionID')) {
                                 resolve(sessionStorage.getItem('sessionID'));
                             } else {
                                 console.log(msgEvent.data);
@@ -99,7 +90,9 @@
                 });
             },
 
-            // Current Threshold & Last Training Score Tabs
+            /* This method returns the training threshold of the mental command detection.
+            * It also returns the score of the last mental command training.
+            */
             mentalCommandTrainingThreshold: function () {
                 let cortexToken = sessionStorage.getItem('cortexToken');
                 let sessionID = sessionStorage.getItem('sessionID');
@@ -142,13 +135,58 @@
                         }
                     };
                 });
+            },
+            getTrainedSignatureActions: function () {
+                let cortexToken = sessionStorage.getItem('cortexToken');
+                let profileName = sessionStorage.getItem('profile');
+                const GET_ACTIONS_ID = 12;
+
+                let getActionsRequest = {
+                    "id": GET_ACTIONS_ID,
+                    "jsonrpc": "2.0",
+                    "method": "getTrainedSignatureActions",
+                    "params": {
+                        "cortexToken": cortexToken,
+                        "detection": "mentalCommand",
+                        "profile": profileName
+                    }
+                }
+
+                let self = this;
+
+                let message = JSON.stringify(getActionsRequest);
+                console.log(`SENT: ${message}`);
+                self.$websocket.send(message);
+
+                return new Promise(function (resolve, reject) {
+                    self.$websocket.onmessage = (msgEvent) => {
+                        console.log(`RESPONSE: ${msgEvent.data}`)
+                        let parsedResult = JSON.parse(msgEvent.data);
+
+                        try {
+                            if (parsedResult['id'] === GET_ACTIONS_ID) {
+                                // Select a different action but neutral
+                                let actions = parsedResult['result']['trainedActions'][1];
+                                self.totalMeditationsCompleted = actions.times;
+                                resolve(actions);
+                            }
+                        } catch (error) {
+                            console.log(msgEvent.data);
+                            reject(error);
+                        }
+                    };
+                });
             }
         },
         async mounted() {
+            // Initiate a session
             await this.createSession().then(sessionID => {
                 sessionStorage.setItem('sessionID', sessionID);
             });
+
+            // Create Information Tabs
             await this.mentalCommandTrainingThreshold();
+            await this.getTrainedSignatureActions();
         }
     }
 </script>
@@ -220,8 +258,7 @@
     #dashboard {
         display: grid;
         grid-template-columns: repeat(6, 1fr);
-        margin-left: 40px;
-        margin-top: 10px;
+        margin: 10px 40px;
     }
 
     #guide-title {
@@ -253,9 +290,15 @@
         align-self: center;
         justify-self: center;
     }
+
     #tab-2 {
         grid-row: 2;
         align-self: center;
         justify-self: center;
+    }
+
+    #tab-3 {
+        align-self: center;
+        justify-self: left;
     }
 </style>
