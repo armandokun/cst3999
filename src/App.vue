@@ -85,10 +85,10 @@
             let ref = this;
             this.$websocket.onopen = async function () {
                 console.log('WebSocket is connected');
-                await ref.authorize()
-                    .then(cortexToken => {sessionStorage.setItem('cortexToken', cortexToken)});
                 await ref.queryHeadsetId()
                     .then(headsetID => sessionStorage.setItem('headsetID', headsetID));
+                await ref.authorize()
+                    .then(cortexToken => {sessionStorage.setItem('cortexToken', cortexToken)});
             };
 
             this.$websocket.onmessage = function (e) {

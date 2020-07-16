@@ -12,10 +12,25 @@
                     focus and threshold.</p>
             </div>
             <div class="tabs" id="tab-1">
+                <div class="tooltip" id="threshold-tooltip">
+                    <span class="material-icons">
+                        info
+                    </span>
+                    <span class="tooltiptext">The training threshold provides an indication of
+                        minimum threshold that you should target for when training the action.</span>
+                </div>
                 <h4 class="tab-title">Current Threshold</h4>
                 <div class="tab-score">{{currentThreshold}}</div>
             </div>
             <div class="tabs" id="tab-2">
+                <div class="tooltip" id="last-score-tooltip">
+                    <span class="material-icons">
+                        info
+                    </span>
+                    <span class="tooltiptext">Any training score above the threshold is very likely
+                        to improve your profile. Any training significantly
+                        below the threshold is likely to reduce the quality of your profile.</span>
+                </div>
                 <h4 class="tab-title">Last Training Score</h4>
                 <div class="tab-score">{{lastTrainingScore}}</div>
             </div>
@@ -40,6 +55,7 @@
                     minutes: 10,
                     title: 'Ocean'
                 },
+                // Tab information
                 currentThreshold: 0,
                 lastTrainingScore: 0,
                 totalMeditationsCompleted: 0
@@ -136,6 +152,11 @@
                     };
                 });
             },
+
+            /*
+            * This method returns the list of the trained actions of a profile.
+            * For each action, you also see how many times the user trained this action.
+            */
             getTrainedSignatureActions: function () {
                 let cortexToken = sessionStorage.getItem('cortexToken');
                 let profileName = sessionStorage.getItem('profile');
@@ -300,5 +321,37 @@
     #tab-3 {
         align-self: center;
         justify-self: left;
+    }
+
+    /* Icon positioning */
+    #threshold-tooltip {
+        top: 16%;
+    }
+
+    #last-score-tooltip {
+        top: 47%;
+    }
+
+    .tooltip {
+        position: absolute;
+        right: 36%;
+    }
+
+    .tooltip .tooltiptext {
+        visibility: hidden;
+        width: 300px;
+        background-color: black;
+        color: #fff;
+        text-align: left;
+        border-radius: 5px;
+        padding: 10px;
+        position: absolute;
+        z-index: 1;
+        top: -5px;
+        left: 110%;
+    }
+
+    .tooltip:hover .tooltiptext {
+        visibility: visible;
     }
 </style>
