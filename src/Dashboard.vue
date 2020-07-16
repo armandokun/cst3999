@@ -38,6 +38,10 @@
                 <h4 class="tab-title">Meditations Completed</h4>
                 <div class="tab-score">{{totalMeditationsCompleted}}</div>
             </div>
+            <ul id="guide-selection">
+                <li id="rain-guide">Rain<span class="guide-duration">15 min</span></li>
+                <li id="forest-guide">Forest<span class="guide-duration">10 min</span></li>
+            </ul>
         </div>
     </div>
 </template>
@@ -325,11 +329,11 @@
 
     /* Icon positioning */
     #threshold-tooltip {
-        top: 16%;
+        top: 11%;
     }
 
     #last-score-tooltip {
-        top: 47%;
+        top: 33%
     }
 
     .tooltip {
@@ -353,5 +357,38 @@
 
     .tooltip:hover .tooltiptext {
         visibility: visible;
+    }
+
+    #guide-selection {
+        grid-row: 3;
+        grid-column: 1 / 3;
+        width: 75%;
+    }
+
+    #guide-selection li {
+        margin-bottom: 10px;
+        cursor: pointer;
+        opacity: 100%;
+        transition: opacity 0.25s;
+    }
+
+    #guide-selection li:hover {
+        opacity: 80%;
+    }
+
+    #guide-selection li:first-child {
+        margin-top: 10px;
+    }
+
+    #rain-guide {
+        background-image: url("./assets/rain.jpg");
+    }
+
+    #forest-guide {
+        background-image: url("./assets/forest.jpg");
+    }
+
+    .guide-duration {
+        float: right;
     }
 </style>
