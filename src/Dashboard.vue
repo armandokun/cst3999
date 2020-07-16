@@ -3,12 +3,15 @@
         <NavigationBar/>
         <div id="dashboard">
             <div id="main">
-                <img src="./assets/sea.jpg" alt="Sea Shore"/>
-                <h5 id="guide-title">{{audioGuide.title}}</h5>
+                <ul>
+                    <li id="main-guide" v-bind:style="{background: mainAudioGuide.img}"/>
+                </ul>
+                <h5 id="guide-title">{{mainAudioGuide.title}}</h5>
                 <span class="material-icons" id="play-btn">
                 play_circle_filled
             </span>
-                <p id="instruction-text">Press Play Icon to meditate for {{audioGuide.minutes}} minutes to improve your
+                <p id="instruction-text">Press Play Icon to meditate for {{mainAudioGuide.duration}} minutes to improve
+                    your
                     focus and threshold.</p>
             </div>
             <div class="tabs" id="tab-1">
@@ -39,8 +42,15 @@
                 <div class="tab-score">{{totalMeditationsCompleted}}</div>
             </div>
             <ul id="guide-selection">
-                <li id="rain-guide">Rain<span class="guide-duration">15 min</span></li>
-                <li id="forest-guide">Forest<span class="guide-duration">10 min</span></li>
+                <li v-for="guide in availableGuides"
+                    v-bind:key="guide.id"
+                    @click="changePlayer(guide.title)"
+                    v-bind:style="{ background: guide.img}">
+                    {{guide.title}}
+                    <span class="guide-duration">
+                        {{guide.duration}} min
+                    </span>
+                </li>
             </ul>
         </div>
     </div>
@@ -55,10 +65,23 @@
         data() {
             return {
                 profileName: sessionStorage.getItem('profile'),
-                audioGuide: {
-                    minutes: 10,
-                    title: 'Ocean'
+                mainAudioGuide: {
+                    duration: 10,
+                    title: 'Ocean',
+                    img: 'url(./img/sea.03042fbd.jpg)',
                 },
+                availableGuides: [
+                    {
+                        title: 'Rain',
+                        duration: 15,
+                        img: 'url(./img/rain.23a79b5e.jpg)',
+                    },
+                    {
+                        title: 'Forest',
+                        duration: 10,
+                        img: 'url(./img/forest.a1e0aefd.jpg)',
+                    },
+                ],
                 // Tab information
                 currentThreshold: 0,
                 lastTrainingScore: 0,
@@ -201,6 +224,22 @@
                         }
                     };
                 });
+            },
+
+            changePlayer: function (guideTitle) {
+                // Store Current mainAudioGuide
+                let mainAudioGuide = this.mainAudioGuide;
+
+                // Find an object which title matches guideTitle
+                let guideID = this.availableGuides.findIndex(x => x.title === guideTitle);
+
+                /* Replace mainAudioGuide properties with that object
+                 * Remove the selected one from array
+                 */
+                this.mainAudioGuide = this.availableGuides.splice(guideID, 1)[0];
+
+                // Save old mainAudioGuide to the availableGuides Array
+                this.availableGuides.push(mainAudioGuide);
             }
         },
         async mounted() {
@@ -228,11 +267,35 @@
         cursor: default;
     }
 
-    img {
+    #main {
+        grid-column: 1 / 4;
+        grid-row: 1 / 3;
+        margin-top: 10px;
+        position: relative;
+    }
+
+    #main-guide {
         border-radius: 5px;
         width: 100%;
         height: 300px;
-        filter: brightness(70%)
+        filter: brightness(70%);
+        padding: 0;
+    }
+
+    #play-btn {
+        margin: 0;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 70px;
+        color: white;
+        transition: font-size 0.25s;
+        cursor: pointer
+    }
+
+    #play-btn:hover {
+        font-size: 80px;
     }
 
     .tabs {
@@ -255,29 +318,6 @@
         font-weight: 500;
         margin-top: 30px;
         margin-right: 15px;
-    }
-
-    #main {
-        grid-column: 1 / 4;
-        grid-row: 1 / 3;
-        margin-top: 10px;
-        position: relative;
-    }
-
-    #play-btn {
-        margin: 0;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        font-size: 70px;
-        color: white;
-        transition: font-size 0.25s;
-        cursor: pointer
-    }
-
-    #play-btn:hover {
-        font-size: 80px;
     }
 
     #dashboard {
@@ -378,14 +418,6 @@
 
     #guide-selection li:first-child {
         margin-top: 10px;
-    }
-
-    #rain-guide {
-        background-image: url("./assets/rain.jpg");
-    }
-
-    #forest-guide {
-        background-image: url("./assets/forest.jpg");
     }
 
     .guide-duration {
