@@ -124,7 +124,7 @@
                     }
                 });
             },
-            loadProfile: function (profileName) {
+            loadProfile: async function (profileName) {
                 let authToken = sessionStorage.getItem('cortexToken');
                 let headsetID = sessionStorage.getItem('headsetID');
                 const LOAD_PROFILE_ID = 6;
@@ -147,14 +147,17 @@
                 ref.$websocket.send(message);
 
                 return new Promise(function (resolve, reject) {
-                    ref.$websocket.onmessage = (msgEvent) => {
+                    ref.$websocket.onmessage = async (msgEvent) => {
                         console.log(`RESPONSE: ${msgEvent.data}`)
                         let parsedResult = JSON.parse(msgEvent.data);
 
                         try {
-                            if (parsedResult['id'] === LOAD_PROFILE_ID) {
+                            if ("error" in parsedResult) {
+                                await ref.unloadProfile();
+                                await ref.loadProfile(profileName);
+                            } else if (parsedResult['id'] === LOAD_PROFILE_ID) {
                                 sessionStorage.setItem('profile', parsedResult.result.name);
-                                ref.$router.push('/dashboard');
+                                await ref.$router.push('/dashboard');
                                 resolve(msgEvent.data);
                             }
                         } catch (error) {
@@ -184,14 +187,18 @@
                 ref.$websocket.send(message);
 
                 return new Promise(function (resolve, reject) {
-                    ref.$websocket.onmessage = (msgEvent) => {
+                    ref.$websocket.onmessage = async (msgEvent) => {
                         console.log(`RESPONSE: ${msgEvent.data}`)
                         let parsedResult = JSON.parse(msgEvent.data);
 
                         try {
+                            if("error" in parsedResult) {
+                                await ref.unloadProfile();
+                                await ref.loadGuestProfile();
+                            }
                             if (parsedResult['id'] === LOAD_GUEST_PROFILE_ID) {
                                 sessionStorage.setItem('profile', parsedResult.result.name);
-                                ref.$router.push('/dashboard');
+                                await ref.$router.push('/dashboard');
                                 resolve(msgEvent.data);
                             }
                         } catch (error) {
@@ -200,6 +207,46 @@
                     }
                 });
             },
+            unloadProfile: function () {
+                let headsetID = sessionStorage.getItem('headsetID');
+                let cortexToken = sessionStorage.getItem('cortexToken');
+
+                const UNLOAD_PROFILE_ID = 7;
+                let unloadProfileRequest = {
+                    'jsonrpc': '2.0',
+                    'method': 'setupProfile',
+                    'params': {
+                        'cortexToken': cortexToken,
+                        'headset': headsetID,
+                        'profile': '',
+                        'status': 'unload'
+                    },
+                    'id': UNLOAD_PROFILE_ID
+                };
+
+                let ref = this;
+
+                let message = JSON.stringify(unloadProfileRequest);
+                console.log(`SENT: ${message}`);
+                ref.$websocket.send(message);
+
+                return new Promise(function (resolve, reject) {
+                    ref.$websocket.onmessage = (msgEvent) => {
+                        console.log(`RESPONSE: ${msgEvent.data}`)
+                        let parsedResult = JSON.parse(msgEvent.data);
+
+                        try {
+                            if (parsedResult['id'] === UNLOAD_PROFILE_ID) {
+                                sessionStorage.setItem('profile', 'Guest Profile');
+                                resolve(msgEvent.data);
+                            }
+                        } catch (error) {
+                            reject(error);
+                        }
+                    }
+                });
+
+            }
         },
         mounted() {
             let ref = this;

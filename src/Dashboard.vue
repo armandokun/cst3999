@@ -74,7 +74,7 @@
                     {
                         title: 'Rain',
                         duration: 15,
-                        img: 'url(./img/rain.23a79b5e.jpg)',
+                        img: 'url(./img/rain.021efadd.jpg)',
                     },
                     {
                         title: 'Forest',
@@ -213,9 +213,16 @@
 
                         try {
                             if (parsedResult['id'] === GET_ACTIONS_ID) {
-                                // Select a different action but neutral
-                                let actions = parsedResult['result']['trainedActions'][1];
-                                self.totalMeditationsCompleted = actions.times;
+                                let actions = parsedResult['result']['trainedActions'];
+
+                                let completedMeditations = 0;
+
+                                actions.forEach(action => {
+                                    if (action.action !== 'neutral')
+                                        completedMeditations += action.times
+                                });
+
+                                self.totalMeditationsCompleted = completedMeditations;
                                 resolve(actions);
                             }
                         } catch (error) {
