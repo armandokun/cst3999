@@ -7,7 +7,7 @@
                     <li id="main-guide" v-bind:style="{background: mainAudioGuide.img}"/>
                 </ul>
                 <h5 id="guide-title">{{mainAudioGuide.title}}</h5>
-                <span class="material-icons" id="play-btn">
+                <span @click="startTraining()" class="material-icons" id="play-btn">
                 play_circle_filled
             </span>
                 <p id="instruction-text">Press Play Icon to meditate for {{mainAudioGuide.duration}} minutes to improve
@@ -247,6 +247,11 @@
 
                 // Save old mainAudioGuide to the availableGuides Array
                 this.availableGuides.push(mainAudioGuide);
+            },
+
+            startTraining: function () {
+
+                this.$router.push('/player');
             }
         },
         async mounted() {
