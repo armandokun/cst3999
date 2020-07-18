@@ -2,7 +2,7 @@
     <div class="player">
         <div class="bg" :style="{ backgroundImage: 'url(' + guide.img + ')' }">
             <audio autoplay id="source">
-                <source :src="guide.sound">
+                <source :src="guide.sound" :volume="guide.volume">
             </audio>
             <div id="center-wrapper">
                 <h1>Time Remaining</h1>
@@ -25,7 +25,12 @@
                         <div :class="{active: showRange}">Volume</div>
                         <div :class="{active: !showRange}">
                             <label for="volume-controller">
-                                <input type="range" min="1" max="10" value="5" id="volume-controller">
+                                <input type="range"
+                                       @change="volumeControl()"
+                                       min="1"
+                                       max="10"
+                                       value="5"
+                                       id="volume-controller">
                             </label>
                         </div>
                     </div>
@@ -43,7 +48,8 @@
                 guide: {
                     img: require('./assets/img/ocean-medium.jpg'),
                     sound: require('./assets/sounds/ocean.mp3'),
-                    duration: 0
+                    duration: 0,
+                    volume: 1
                 },
                 showRange: false,
                 audioPaused: false
@@ -85,6 +91,13 @@
                     audio.pause();
                     this.audioPaused = true;
                 }
+            },
+            volumeControl: function () {
+                let audioSource = document.querySelector('#source');
+                let volumeController = document.querySelector('#volume-controller');
+
+                /* Needs to be divided by 10 since the volume range is [0..1] */
+                audioSource.volume = volumeController.value / 10;
             }
         },
         mounted() {
