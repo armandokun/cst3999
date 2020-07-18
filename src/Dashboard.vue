@@ -68,18 +68,18 @@
                 mainAudioGuide: {
                     duration: 10,
                     title: 'Ocean',
-                    img: require('./assets/sea.jpg'),
+                    img: require('./assets/img/sea.jpg'),
                 },
                 availableGuides: [
                     {
                         title: 'Rain',
                         duration: 15,
-                        img: require('./assets/rain.jpg'),
+                        img: require('./assets/img/rain.jpg'),
                     },
                     {
                         title: 'Forest',
                         duration: 10,
-                        img: require('./assets/forest.jpg'),
+                        img: require('./assets/img/forest.jpg'),
                     },
                 ],
                 // Tab information
@@ -250,8 +250,8 @@
             },
 
             startTraining: function () {
-
-                this.$router.push('/player');
+                sessionStorage.setItem('guide', this.mainAudioGuide.title);
+                this.$router.push(`/player`);
             }
         },
         async mounted() {

@@ -50,6 +50,7 @@
         grid-template-columns: repeat(6, 1fr);
         grid-row-gap: 10px;
         margin-left: 40px;
+        margin-top: 20px;
     }
 
     .navigation-bar a {

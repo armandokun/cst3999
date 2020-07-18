@@ -85,10 +85,10 @@
             let ref = this;
             this.$websocket.onopen = async function () {
                 console.log('WebSocket is connected');
+                await ref.authorize()
+                    .then(cortexToken => sessionStorage.setItem('cortexToken', cortexToken));
                 await ref.queryHeadsetId()
                     .then(headsetID => sessionStorage.setItem('headsetID', headsetID));
-                await ref.authorize()
-                    .then(cortexToken => {sessionStorage.setItem('cortexToken', cortexToken)});
             };
 
             this.$websocket.onmessage = function (e) {
@@ -107,13 +107,19 @@
         font-family: Roboto, "Helvetica Neue", "Times New Roman", sans-serif;
     }
 
+    body, html {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
     #app {
         font-family: "Roboto M", Helvetica, Arial, sans-serif;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
         text-align: center;
         color: #2c3e50;
-        margin-top: 20px;
+        height: 100%;
     }
 
     ul {

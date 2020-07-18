@@ -251,7 +251,7 @@
         mounted() {
             let ref = this;
             let queryProfileInterval = setInterval(async () => {
-                if (this.$websocket.bufferedAmount === 0) {
+                if (this.$websocket.bufferedAmount === 0 && sessionStorage.getItem('cortexToken')) {
                     await ref.queryProfiles(sessionStorage.getItem('cortexToken'))
                         .then(profiles => ref.profiles = profiles);
                     clearInterval(queryProfileInterval);
