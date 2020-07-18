@@ -4,7 +4,7 @@
         <div id="dashboard">
             <div id="main">
                 <ul>
-                    <li id="main-guide" v-bind:style="{background: mainAudioGuide.img}"/>
+                    <li id="main-guide" v-bind:style="{ backgroundImage: 'url(' + mainAudioGuide.img + ')' }"/>
                 </ul>
                 <h5 id="guide-title">{{mainAudioGuide.title}}</h5>
                 <span @click="startTraining()" class="material-icons" id="play-btn">
@@ -45,7 +45,7 @@
                 <li v-for="guide in availableGuides"
                     v-bind:key="guide.id"
                     @click="changePlayer(guide.title)"
-                    v-bind:style="{ background: guide.img}">
+                    v-bind:style="{ backgroundImage: 'url(' + guide.img + ')' }">
                     {{guide.title}}
                     <span class="guide-duration">
                         {{guide.duration}} min
@@ -68,18 +68,18 @@
                 mainAudioGuide: {
                     duration: 10,
                     title: 'Ocean',
-                    img: 'url(./img/sea.03042fbd.jpg)',
+                    img: require('./assets/sea.jpg'),
                 },
                 availableGuides: [
                     {
                         title: 'Rain',
                         duration: 15,
-                        img: 'url(./img/rain.021efadd.jpg)',
+                        img: require('./assets/rain.jpg'),
                     },
                     {
                         title: 'Forest',
                         duration: 10,
-                        img: 'url(./img/forest.a1e0aefd.jpg)',
+                        img: require('./assets/forest.jpg'),
                     },
                 ],
                 // Tab information
