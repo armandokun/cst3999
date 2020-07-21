@@ -153,6 +153,7 @@
 
                         try {
                             if ("error" in parsedResult) {
+                                console.log(parsedResult);
                                 await ref.unloadProfile();
                                 await ref.loadProfile(profileName);
                             } else if (parsedResult['id'] === LOAD_PROFILE_ID) {

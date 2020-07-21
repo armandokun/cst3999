@@ -68,24 +68,28 @@
                 mainAudioGuide: {
                     duration: 10,
                     title: 'Ocean',
-                    img: require('./assets/img/sea.jpg'),
+                    img: require('./assets/img/ocean.jpg'),
+                    action: 'push'
                 },
                 availableGuides: [
                     {
                         title: 'Rain',
                         duration: 15,
                         img: require('./assets/img/rain.jpg'),
+                        action: 'lift'
                     },
                     {
                         title: 'Forest',
                         duration: 10,
                         img: require('./assets/img/forest.jpg'),
+                        action: 'pull'
                     },
                 ],
                 // Tab information
                 currentThreshold: 0,
                 lastTrainingScore: 0,
-                totalMeditationsCompleted: 0
+                totalMeditationsCompleted: 0,
+                actions: []
             }
         },
         methods: {
@@ -215,6 +219,8 @@
                             if (parsedResult['id'] === GET_ACTIONS_ID) {
                                 let actions = parsedResult['result']['trainedActions'];
 
+                                self.actions = actions;
+
                                 let completedMeditations = 0;
 
                                 actions.forEach(action => {
@@ -233,6 +239,7 @@
                 });
             },
 
+            /* Change a guide by clicking on the list of guides */
             changePlayer: function (guideTitle) {
                 // Store Current mainAudioGuide
                 let mainAudioGuide = this.mainAudioGuide;
@@ -250,14 +257,38 @@
             },
 
             startTraining: function () {
+
+                // Save details for later usage in Training
                 sessionStorage.setItem('guide', this.mainAudioGuide.title);
-                this.$router.push(`/player`);
+                sessionStorage.setItem('guideAction', this.mainAudioGuide.action);
+
+                // Get Neutral times trained
+                const neutralState = this.actions[0];
+
+                // Query for finding the right index of actions from getTrainedSignatureActions
+                const query = (object) => object.action === this.mainAudioGuide.action;
+
+                // Find an index of the action
+                let actionIndex = this.actions.findIndex(query);
+
+                // Retrieve the object
+                let actionTimes = this.actions[actionIndex].times;
+                let actionName = this.actions[actionIndex].action;
+
+                // Run this, if neutral state haven't been trained for 5 times
+                if (neutralState.times <= 5) {
+                    this.$router.push(`/training/neutral/`);
+                } else if (actionTimes <= 5) {
+                    this.$router.push(`/training/${actionName}`);
+                } else {
+                    this.$router.push('/player');
+                }
             }
         },
         async mounted() {
             // Initiate a session
             await this.createSession().then(sessionID => {
-                sessionStorage.setItem('sessionID', sessionID);
+                sessionStorage.setItem('sessionID', sessionID.toString());
             });
 
             // Create Information Tabs

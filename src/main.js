@@ -4,8 +4,9 @@ import VueRouter from 'vue-router';
 import Home from "./Home";
 import Dashboard from './Dashboard';
 import History from './History';
-import Player from "@/Player";
-import ChangeProfile from "@/ChangeProfile";
+import Player from "./Player";
+import ChangeProfile from "./ChangeProfile";
+import Training from "./Training";
 
 Vue.config.productionTip = false
 Vue.prototype.$websocket = new WebSocket("wss://localhost:6868");
@@ -21,7 +22,9 @@ const routes = [
     {path: '/dashboard', component: Dashboard},
     {path: '/history', component: History},
     {path: '/player', component: Player},
-    {path: '/change-profile', component: ChangeProfile}
+    {path: '/change-profile', component: ChangeProfile},
+    {path: '/training/:action/', component: Training}
+
 ]
 
 const router = new VueRouter({
