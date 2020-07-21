@@ -12,10 +12,7 @@
   <component name="ChangeListManager">
     <list default="true" id="625e523a-c0b2-42a9-a78c-20c64a675a9c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Dashboard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/Dashboard.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Home.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/Home.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Player.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/Player.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Training.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/Training.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -96,7 +93,7 @@
       <workItem from="1594465226768" duration="28072000" />
       <workItem from="1594589973411" duration="26522000" />
       <workItem from="1594892429670" duration="11413000" />
-      <workItem from="1595014244319" duration="33185000" />
+      <workItem from="1595014244319" duration="34315000" />
     </task>
     <servers />
   </component>
@@ -144,9 +141,9 @@
       <screen x="0" y="0" width="1280" height="800" />
     </state>
     <state width="600" height="428" key="javadoc.popup/0.0.1280.800@0.0.1280.800" timestamp="1594819602337" />
-    <state x="305" y="124" width="670" height="676" key="search.everywhere.popup" timestamp="1595239632257">
+    <state x="305" y="124" width="670" height="676" key="search.everywhere.popup" timestamp="1595337441162">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state x="305" y="124" width="670" height="676" key="search.everywhere.popup/0.0.1280.800@0.0.1280.800" timestamp="1595239632257" />
+    <state x="305" y="124" width="670" height="676" key="search.everywhere.popup/0.0.1280.800@0.0.1280.800" timestamp="1595337441162" />
   </component>
 </project>

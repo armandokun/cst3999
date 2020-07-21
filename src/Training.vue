@@ -242,7 +242,7 @@
 
                                 }
                             } catch (error) {
-                                console.log(error);
+                                reject(error);
                             }
                         }
 
@@ -258,6 +258,23 @@
                             } catch (error) {
                                 console.log('error in status === accept', msgEvent.data);
                                 reject(error);
+                            }
+                        }
+
+                        if (status === 'reject') {
+                            try {
+                                if (parsedResult['sys'][1] === 'MC_Rejected') {
+                                    if (confirm("Do you want to restart the training?")) {
+                                        self.countdownStarted = false;
+                                        self.trainingFinished = false;
+                                        self.trainingInProgress = false;
+                                    } else {
+                                        // Must be else statement if want to display the choices in the alert pop up
+                                        self.$router.push('/dashboard');
+                                    }
+                                }
+                            } catch (e) {
+                                resolve(e);
                             }
                         }
                     };
