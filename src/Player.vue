@@ -100,19 +100,18 @@
                 // Needs to be divided by 10 since the volume range is [0..1]
                 audioSource.volume = volumeController.value / 10;
             },
-            async mounted() {
-                let guideTitle = (sessionStorage.getItem('guide')).toLocaleLowerCase();
-                this.guide.img = require(`./assets/img/${guideTitle}-medium.jpg`);
-                this.guide.sound = require(`./assets/sounds/${guideTitle}.mp3`);
+        },
+        mounted() {
+            let guideTitle = (sessionStorage.getItem('guide')).toLocaleLowerCase();
+            this.guide.img = require(`./assets/img/${guideTitle}-medium.jpg`);
+            this.guide.sound = require(`./assets/sounds/${guideTitle}.mp3`);
 
-                let self = this;
+            let self = this;
 
-                let audio = document.getElementById('source');
-                audio.ontimeupdate = function () {
-                    let duration = audio.duration - audio.currentTime;
-                    self.getGuideDuration(duration);
-                }
-
+            let audio = document.getElementById('source');
+            audio.ontimeupdate = function () {
+                let duration = audio.duration - audio.currentTime;
+                self.getGuideDuration(duration);
             }
         }
     }
