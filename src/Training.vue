@@ -1,10 +1,21 @@
 <template>
     <div id="training-player">
         <div v-if="!trainingInProgress">
-            <h2>To start meditating, first, you need to train your {{action.name}} brain state at least
-                {{5-action.times}}
-                {{times}}.</h2>
-            <h2>Each training takes 8 seconds.</h2>
+            <div v-if="this.$route.params.action === 'neutral'">
+                <h2>To start meditating, first, you need to train your {{action.name}} brain state at least
+                    {{5-action.times}}
+                    {{times}}.</h2>
+                <h2>Each training takes 8 seconds.</h2>
+            </div>
+            <div v-else>
+                <h2>Now, you will have to train your meditative state at least
+                    {{5-action.times}}
+                    {{times}}.</h2>
+                <h2>Each training takes 8 seconds.
+                    You should hear background music respectively
+                    to the meditation guide selected.</h2>
+                <h2 style="color: red">Please close your eyes. Headphones recommended.</h2>
+            </div>
             <p>When you are ready, press a button to begin</p>
             <button class="primary-btn" :class="{ disabled: countdownStarted }" @click="startTraining">Start Training
             </button>
@@ -14,6 +25,9 @@
             </div>
         </div>
         <div v-show="trainingInProgress && !trainingFinished">
+            <audio id="source">
+                <source :src="action.sound">
+            </audio>
             <div id="training-in-progress">Time Left: 00:0<span id="cd-sec-training"></span></div>
         </div>
 
@@ -31,8 +45,10 @@
         data() {
             return {
                 action: {
+                    title: '',
                     name: this.$route.params.action,
-                    times: 0
+                    times: 0,
+                    sound: ''
                 },
                 trainingInProgress: false,
                 times: '',
@@ -46,6 +62,29 @@
             getNoun: function () {
                 (5 - this.action.times === 1) ?
                     this.times = 'time' : this.times = 'times';
+            },
+
+            // Assign a sound accordingly to the meditation guide
+            setActionSound: function () {
+                switch (this.action.name) {
+                    case 'push' :
+                        this.action.title = 'ocean';
+                        this.action.sound = require(`./assets/sounds/${this.action.title}.mp3`)
+                        break;
+
+                    case 'lift' :
+                        this.action.title = 'rain';
+                        this.action.sound = require(`./assets/sounds/${this.action.title}.mp3`)
+                        break;
+
+                    case 'pull' :
+                        this.action.title = 'forest';
+                        this.action.sound = require(`./assets/sounds/${this.action.title}.mp3`)
+                        break;
+
+                    default:
+                        break;
+                }
             },
 
             /* Get Actions Data from API */
@@ -121,6 +160,8 @@
 
                     // After the countdown, init trainRequest
                     setTimeout(async function () {
+                        let meditationSound = document.querySelector('#source');
+                        meditationSound.play();
                         await self.trainRequest(self.action.name, 'start');
                     }, 3100);
                 }
@@ -285,7 +326,8 @@
                                     console.log(parsedResult);
 
                                     self.trainingFinished = true;
-
+                                    let meditationSound = document.querySelector('#source');
+                                    meditationSound.pause();
                                 }
                             } catch (error) {
                                 reject(error);
@@ -307,6 +349,9 @@
 
                                             // To refresh the count of times completed
                                             self.getActionTimesCompleted();
+
+                                            // Refresh times noun
+                                            self.getNoun();
 
                                             self.countdownStarted = false;
                                             self.trainingFinished = false;
@@ -351,8 +396,11 @@
             }
         },
         mounted() {
-            // Gets the correct noun for 'times' in the heading of training player
+            // Get the correct noun for 'times' in the heading of training player
             this.getNoun();
+
+            // Assign a title to an action respectively
+            this.setActionSound();
 
             // Get current action times completed
             this.getActionTimesCompleted();

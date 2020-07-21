@@ -38,7 +38,7 @@
                 <div class="tab-score">{{lastTrainingScore}}</div>
             </div>
             <div class="tabs" id="tab-3">
-                <h4 class="tab-title">Meditations Completed</h4>
+                <h4 class="tab-title">Trainings Completed</h4>
                 <div class="tab-score">{{totalMeditationsCompleted}}</div>
             </div>
             <ul id="guide-selection">
