@@ -1,7 +1,8 @@
 <template>
     <div id="training-player">
         <div v-if="!trainingInProgress">
-            <h2>To start meditating, first, you need to train your neutral brain state at least {{5-action.times}}
+            <h2>To start meditating, first, you need to train your {{action.name}} brain state at least
+                {{5-action.times}}
                 {{times}}.</h2>
             <h2>Each training takes 8 seconds.</h2>
             <p>When you are ready, press a button to begin</p>
@@ -86,12 +87,16 @@
                                 let actionIndex = actions.findIndex(query);
 
                                 // Retrieve the object
-                                let actionTimes = actions[actionIndex].times;
-                                self.action.times = actionTimes;
+                                if (actions[actionIndex] === undefined) {
+                                    self.action.times = 0;
+                                } else {
+                                    let actionTimes = actions[actionIndex].times;
+                                    self.action.times = actionTimes;
 
-                                let actionName = actions[actionIndex].action;
+                                    let actionName = actions[actionIndex].action;
 
-                                console.log(actionName, actionTimes);
+                                    console.log(actionName, actionTimes);
+                                }
                                 resolve(actions);
                             }
                         } catch (error) {
@@ -189,6 +194,47 @@
                     };
                 });
             },
+            saveProfile: function () {
+                let profileName = sessionStorage.getItem('profile');
+                let headsetId = sessionStorage.getItem('headsetID');
+                let cortexToken = sessionStorage.getItem('cortexToken');
+
+                const SAVE_PROFILE_ID = 13;
+                let saveProfileRequest = {
+                    "id": SAVE_PROFILE_ID,
+                    "jsonrpc": "2.0",
+                    "method": "setupProfile",
+                    "params": {
+                        "cortexToken": cortexToken,
+                        "headset": headsetId,
+                        "profile": profileName,
+                        "status": "save"
+                    }
+                }
+
+                let self = this;
+
+                let message = JSON.stringify(saveProfileRequest);
+                console.log(`SENT: ${message}`);
+                self.$websocket.send(message);
+
+                return new Promise(function (resolve, reject) {
+                    self.$websocket.onmessage = (msgEvent) => {
+                        console.log(`RESPONSE: ${msgEvent.data}`)
+                        let parsedResult = JSON.parse(msgEvent.data);
+
+                        try {
+                            if (parsedResult['id'] === SAVE_PROFILE_ID) {
+                                resolve(parsedResult['result']);
+                            }
+                        } catch (error) {
+                            console.log(msgEvent.data);
+                            reject(error);
+                        }
+                    };
+                });
+
+            },
             trainRequest: function (action, status) {
                 let authToken = sessionStorage.getItem('cortexToken');
                 let sessionId = sessionStorage.getItem('sessionID');
@@ -252,6 +298,29 @@
                                 if (parsedResult['sys'][1] === 'MC_Completed') {
                                     console.log('ACCEPT TRAINING RESULT --------------------------------------');
                                     console.log(msgEvent.data);
+
+                                    // Do not display on the last training
+                                    if (self.action.times !== 4) {
+                                        if (confirm("Do you want to train again?")) {
+                                            // Save profile and then refresh the count of completed states
+                                            self.saveProfile();
+
+                                            // To refresh the count of times completed
+                                            self.getActionTimesCompleted();
+
+                                            self.countdownStarted = false;
+                                            self.trainingFinished = false;
+                                            self.trainingInProgress = false;
+                                        } else {
+                                            self.saveProfile();
+                                            // Must be else statement if want to display the choices in the alert pop up
+                                            self.$router.push('/dashboard');
+                                        }
+                                    } else {
+                                        self.saveProfile();
+                                        self.$router.push('/dashboard');
+                                    }
+
 
                                     resolve(msgEvent.data);
                                 }

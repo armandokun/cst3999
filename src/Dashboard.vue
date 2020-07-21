@@ -262,26 +262,36 @@
                 sessionStorage.setItem('guide', this.mainAudioGuide.title);
                 sessionStorage.setItem('guideAction', this.mainAudioGuide.action);
 
-                // Get Neutral times trained
-                const neutralState = this.actions[0];
+                // Get brain states trained first if new profile
+                let neutralState;
+                if (this.actions.length !== 0) {
+                    neutralState = this.actions[0];
 
-                // Query for finding the right index of actions from getTrainedSignatureActions
-                const query = (object) => object.action === this.mainAudioGuide.action;
+                    // Query for finding the right index of actions from getTrainedSignatureActions
+                    const query = (object) => object.action === this.mainAudioGuide.action;
 
-                // Find an index of the action
-                let actionIndex = this.actions.findIndex(query);
+                    // Find an index of the action
+                    let actionIndex = this.actions.findIndex(query);
 
-                // Retrieve the object
-                let actionTimes = this.actions[actionIndex].times;
-                let actionName = this.actions[actionIndex].action;
+                    if (this.actions[actionIndex] === undefined) {
+                        this.$router.push(`/training/${this.mainAudioGuide.action}`);
+                    } else {
+                        // Retrieve the object
+                        let actionTimes = this.actions[actionIndex].times;
+                        let actionName = this.actions[actionIndex].action;
 
-                // Run this, if neutral state haven't been trained for 5 times
-                if (neutralState.times <= 5) {
-                    this.$router.push(`/training/neutral/`);
-                } else if (actionTimes <= 5) {
-                    this.$router.push(`/training/${actionName}`);
+                        // Run this, if neutral state haven't been trained for 5 times
+                        if (neutralState.times < 5) {
+                            this.$router.push(`/training/neutral/`);
+                        } else if (actionTimes < 5) {
+                            this.$router.push(`/training/${actionName}`);
+                        } else {
+                            // all conditions passed, going into meditation session
+                            this.$router.push('/player');
+                        }
+                    }
                 } else {
-                    this.$router.push('/player');
+                    this.$router.push('/training/neutral');
                 }
             }
         },
