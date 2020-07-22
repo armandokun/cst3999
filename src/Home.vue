@@ -18,11 +18,6 @@
                 </ul>
             </div>
         </div>
-        <!-- Sizing makes it vertical -->
-        <hr width="1" size="500">
-        <div id="guest-profile">
-            <a @click="loadGuestProfile">Load Guest Profile</a>
-        </div>
     </div>
 </template>
 
@@ -176,47 +171,6 @@
                     }
                 });
             },
-            loadGuestProfile: function () {
-                let authToken = sessionStorage.getItem('cortexToken');
-                let headsetID = sessionStorage.getItem('headsetID');
-                const LOAD_GUEST_PROFILE_ID = 7;
-                let loadGuestProfileRequest = {
-                    'jsonrpc': '2.0',
-                    'method': 'loadGuestProfile',
-                    'params': {
-                        'cortexToken': authToken,
-                        'headset': headsetID,
-                    },
-                    'id': LOAD_GUEST_PROFILE_ID
-                };
-
-                let ref = this;
-
-                let message = JSON.stringify(loadGuestProfileRequest);
-                console.log(`SENT: ${message}`);
-                ref.$websocket.send(message);
-
-                return new Promise(function (resolve, reject) {
-                    ref.$websocket.onmessage = async (msgEvent) => {
-                        console.log(`RESPONSE: ${msgEvent.data}`)
-                        let parsedResult = JSON.parse(msgEvent.data);
-
-                        try {
-                            if ("error" in parsedResult) {
-                                await ref.unloadProfile();
-                                await ref.loadGuestProfile();
-                            }
-                            if (parsedResult['id'] === LOAD_GUEST_PROFILE_ID) {
-                                sessionStorage.setItem('profile', parsedResult.result.name);
-                                await ref.$router.push('/dashboard');
-                                resolve(msgEvent.data);
-                            }
-                        } catch (error) {
-                            reject(error);
-                        }
-                    }
-                });
-            },
 
             /* In case of a need to use different account in the same app session.
              Current profile must be unloaded to load other one.*/
@@ -289,23 +243,8 @@
     }
 
     #profiles {
-        grid-column: 2 / 3;
+        grid-column: 3 / 4;
         align-self: center;
-    }
-
-    #guest-profile {
-        grid-column: 4 / 5;
-        justify-self: center;
-        align-self: center;
-    }
-
-    #guest-profile a {
-        padding: 0 10px;
-    }
-
-    #manage-profiles-btn {
-        /*to make space between Manage Profiles and Load Guest Profile*/
-        margin-top: 10px;
     }
 
     #new-profile-name {
