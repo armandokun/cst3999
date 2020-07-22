@@ -11,8 +11,7 @@ This guide explains how to run the project.
 ### Running Steps
 1. Create an account with Emotiv
 2. Create an app in the Cortex Apps section
-3. Create a text file called .env and save it into the root folder of this project
-4. Copy the details of your app to the .env file
+3. Copy the clientId and clientSecret to ```src/main.js```
 5. Download and run the Emotiv App
 6. Once you run the app, look out for a message in the console, stating that you need to approve the app's legitability in your Emotiv App 
 7. Click on the brain icon in the toolbar and you should see a pop up of Emotiv App
