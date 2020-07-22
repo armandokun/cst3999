@@ -1,3 +1,9 @@
+---
+description: >-
+  For a more delightful experience, visit
+  https://armandasvaicikauskas.gitbook.io/cst3999-software-documentation/
+---
+
 # Getting Started
 
 You are about to embark in the reading of the documentation that contains instructions to run my undergraduate final project. 
@@ -12,24 +18,8 @@ The Cortex API is built on JSON and WebSockets, making it easy to access from a 
 
 ## Supported Software & Hardware
 
-Becoming a super hero is a fairly straight forward process:
-
-```
-$ give me super-powers
-```
-
-{% hint style="info" %}
- Super-powers are granted randomly so please submit an issue if you're not happy with yours.
-{% endhint %}
-
-Once you're strong enough, save the world:
-
-{% code title="hello.sh" %}
-```bash
-# Ain't no code for that yet, sorry
-echo 'You got to trust me on this, I saved the world'
-```
-{% endcode %}
+The headset I worked with for this project, is called _Emotiv EPOC+_. The project has been successfully developed by using _MacOS Catalina_.   
+Other platforms and hardware that could support this app are listed on the official [Cortex API documentation](https://emotiv.gitbook.io/cortex-api/), below 'Getting Started' article.
 
 
 
