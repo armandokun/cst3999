@@ -39,7 +39,7 @@
             </div>
             <div class="tabs" id="tab-3">
                 <h4 class="tab-title">Trainings Completed</h4>
-                <div class="tab-score">{{totalMeditationsCompleted}}</div>
+                <div class="tab-score">{{totalTrainingsCompleted}}</div>
             </div>
             <ul id="guide-selection">
                 <li v-for="guide in availableGuides"
@@ -88,7 +88,7 @@
                 // Tab information
                 currentThreshold: 0,
                 lastTrainingScore: 0,
-                totalMeditationsCompleted: 0,
+                totalTrainingsCompleted: 0,
                 actions: []
             }
         },
@@ -221,14 +221,13 @@
 
                                 self.actions = actions;
 
-                                let completedMeditations = 0;
+                                let completedTrainings = 0;
 
                                 actions.forEach(action => {
-                                    if (action.action !== 'neutral')
-                                        completedMeditations += action.times
+                                        completedTrainings += action.times
                                 });
 
-                                self.totalMeditationsCompleted = completedMeditations;
+                                self.totalTrainingsCompleted = completedTrainings;
                                 resolve(actions);
                             }
                         } catch (error) {

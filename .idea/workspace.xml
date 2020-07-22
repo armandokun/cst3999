@@ -12,11 +12,8 @@
   <component name="ChangeListManager">
     <list default="true" id="625e523a-c0b2-42a9-a78c-20c64a675a9c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Dashboard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/Dashboard.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Player.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/Player.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Training.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/Training.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/sounds/ocean.mp3" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/sounds/ocean.mp3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/NavigationBar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/NavigationBar.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -98,7 +95,7 @@
       <workItem from="1594589973411" duration="26522000" />
       <workItem from="1594892429670" duration="11413000" />
       <workItem from="1595014244319" duration="36450000" />
-      <workItem from="1595357503968" duration="10961000" />
+      <workItem from="1595357503968" duration="12097000" />
     </task>
     <servers />
   </component>

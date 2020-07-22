@@ -197,7 +197,7 @@
                 });
             },
             returnToDashboard: function () {
-                this.$route.push('/dashboard');
+                this.$router.push('/dashboard');
             }
         },
         mounted() {
