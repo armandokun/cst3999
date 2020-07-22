@@ -2,7 +2,7 @@
     <div class="player">
         <div class="bg" :style="{ backgroundImage: 'url(' + guide.img + ')' }">
             <audio autoplay id="source">
-                <source :src="guide.sound" :volume="guide.volume">
+                <source :src="guide.sound">
             </audio>
             <div class="center-wrapper" v-if="!trainingFinished">
                 <h1>Time Remaining</h1>
@@ -25,13 +25,14 @@
                         <div :class="{active: showRange}">Volume</div>
                         <div :class="{active: !showRange}">
                             <label for="volume-controller">
-                                <input type="range"
-                                       @change="volumeControl()"
-                                       min="1"
-                                       max="10"
-                                       value="5"
-                                       id="volume-controller">
                             </label>
+                            <input type="range"
+                                   name="volume-controller"
+                                   @change="volumeControl()"
+                                   min="1"
+                                   max="10"
+                                   :value="guide.volume"
+                                   id="volume-controller">
                         </div>
                     </div>
                 </div>
@@ -58,7 +59,7 @@
                     img: require('./assets/img/ocean-medium.jpg'),
                     sound: require('./assets/sounds/ocean.mp3'),
                     duration: 0,
-                    volume: 1
+                    volume: 5
                 },
                 // Volume Range in Player
                 showRange: false,
@@ -118,8 +119,9 @@
                 let audioSource = document.querySelector('#source');
                 let volumeController = document.querySelector('#volume-controller');
 
-                // Needs to be divided by 10 since the volume range is [0..1]
+                // Needs to be divided by 10 since the volume range for source is [0..1]
                 audioSource.volume = volumeController.value / 10;
+                this.guide.volume = volumeController.value;
             },
             /* subscribe method as seen in Training.vue,
              designed to be specifically used during the meditation sessions */
@@ -146,25 +148,57 @@
                 self.$websocket.send(message);
 
                 return new Promise(function (resolve, reject) {
-                    self.$websocket.onmessage = (msgEvent) => {
-                        console.log(`RESPONSE: ${msgEvent.data}`)
-                        let parsedResult = JSON.parse(msgEvent.data);
+                        self.$websocket.onmessage = (msgEvent) => {
+                            console.log(`RESPONSE: ${msgEvent.data}`)
+                            let parsedResult = JSON.parse(msgEvent.data);
 
-                        try {
-                            if (parsedResult['id'] === SUB_REQUEST_ID) {
-                                resolve(parsedResult['result']['id']);
+                            try {
+                                if (parsedResult['id'] === SUB_REQUEST_ID) {
+                                    resolve(parsedResult['result']['id']);
+                                }
+                                // if action names matches then add the result to array
+                                if (parsedResult['com'][0] ===
+                                    `${sessionStorage.getItem('guideAction')}`) {
+                                    self.trainingResults.push(parsedResult['com'][1]);
+
+                                    // Volume change if received enough data to evaluate
+                                    // (remainder of 11, array starts from 0
+                                    if (self.trainingResults.length % 11 === 0) {
+                                        // Get last 10 elements of an array
+                                        let lastTrainingResults = self.trainingResults.slice(1).slice(-10);
+
+                                        let temporary = 0;
+                                        lastTrainingResults.forEach(element => temporary += element);
+                                        let lastTrainingAvg = temporary / 10;
+
+                                        console.log('last training average', lastTrainingAvg,
+                                            'lastTrainingResult', lastTrainingResults);
+                                        // Find audio source
+                                        let audioSource = document.querySelector('#source');
+
+                                        if (lastTrainingAvg < 0.5 && audioSource.volume !== 1) {
+                                            console.log('before', audioSource.volume);
+                                            audioSource.volume += 0.1;
+                                            console.log('after', audioSource.volume);
+                                            // Input range and volume range have a difference by 10
+                                            self.guide.volume = audioSource.volume * 10;
+                                        } else if (lastTrainingAvg > 0.5 && audioSource.volume > 0.5) {
+                                            console.log('before', audioSource.volume);
+                                            audioSource.volume -= 0.1;
+                                            console.log('after', audioSource.volume);
+                                            self.guide.volume = audioSource.volume * 10;
+                                        }
+                                    }
+                                }
+                            } catch
+                                (error) {
+                                console.log(msgEvent.data);
+                                reject(error);
                             }
-                            // if action names matches then add the result to array
-                            if (parsedResult['com'][0] ===
-                                `${sessionStorage.getItem('guideAction')}`) {
-                                self.trainingResults.push(parsedResult['com'][1]);
-                            }
-                        } catch (error) {
-                            console.log(msgEvent.data);
-                            reject(error);
-                        }
-                    };
-                });
+                        };
+                    }
+                )
+                    ;
             },
             /* unsubscribe method as seen in Training.vue,
              designed to be specifically used during the meditation sessions */
@@ -205,7 +239,8 @@
                         }
                     };
                 });
-            },
+            }
+            ,
             returnToDashboard: function () {
                 this.$router.push('/dashboard');
             }
@@ -218,6 +253,7 @@
             let self = this;
 
             let audio = document.getElementById('source');
+            audio.volume = 0.5;
             audio.ontimeupdate = function () {
                 let duration = audio.duration - audio.currentTime;
                 self.getGuideDuration(duration);
