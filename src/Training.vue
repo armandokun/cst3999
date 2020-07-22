@@ -301,7 +301,7 @@
                 self.$websocket.send(message);
 
                 return new Promise(function (resolve, reject) {
-                    self.$websocket.onmessage = (msgEvent) => {
+                    self.$websocket.onmessage = async (msgEvent) => {
                         let parsedResult = JSON.parse(msgEvent.data);
 
                         try {
@@ -345,10 +345,10 @@
                                     if (self.action.times !== 4) {
                                         if (confirm("Do you want to train again?")) {
                                             // Save profile and then refresh the count of completed states
-                                            self.saveProfile();
+                                            await self.saveProfile();
 
                                             // To refresh the count of times completed
-                                            self.getActionTimesCompleted();
+                                            await self.getActionTimesCompleted();
 
                                             // Refresh times noun
                                             self.getNoun();
@@ -357,16 +357,17 @@
                                             self.trainingFinished = false;
                                             self.trainingInProgress = false;
                                         } else {
-                                            self.saveProfile();
+                                            await self.saveProfile();
+                                            await self.unsubscribe(['sys']);
+
                                             // Must be else statement if want to display the choices in the alert pop up
-                                            self.$router.push('/dashboard');
+                                            await self.$router.push('/dashboard');
                                         }
                                     } else {
-                                        self.saveProfile();
-                                        self.$router.push('/dashboard');
+                                        await self.saveProfile();
+                                        await self.unsubscribe(['sys']);
+                                        await self.$router.push('/dashboard');
                                     }
-
-
                                     resolve(msgEvent.data);
                                 }
                             } catch (error) {
@@ -383,13 +384,52 @@
                                         self.trainingFinished = false;
                                         self.trainingInProgress = false;
                                     } else {
+                                        await self.unsubscribe(['sys']);
                                         // Must be else statement if want to display the choices in the alert pop up
-                                        self.$router.push('/dashboard');
+                                        await self.$router.push('/dashboard');
                                     }
                                 }
                             } catch (e) {
                                 resolve(e);
                             }
+                        }
+                    };
+                });
+            },
+            unsubscribe: function (stream) {
+                let authToken = sessionStorage.getItem('cortexToken');
+                let sessionId = sessionStorage.getItem('sessionID');
+
+                const UNSUB_REQUEST_ID = 21;
+                let subRequest = {
+                    'jsonrpc': '2.0',
+                    'method': 'unsubscribe',
+                    'params': {
+                        'cortexToken': authToken,
+                        'session': sessionId,
+                        'streams': stream
+                    },
+                    'id': UNSUB_REQUEST_ID
+                };
+
+                let self = this;
+
+                let message = JSON.stringify(subRequest);
+                console.log(`SENT: ${message}`);
+                self.$websocket.send(message);
+
+                return new Promise(function (resolve, reject) {
+                    self.$websocket.onmessage = (msgEvent) => {
+                        console.log(`RESPONSE: ${msgEvent.data}`)
+                        let parsedResult = JSON.parse(msgEvent.data);
+
+                        try {
+                            if (parsedResult['id'] === UNSUB_REQUEST_ID) {
+                                resolve(parsedResult['result']['id']);
+                            }
+                        } catch (error) {
+                            console.log(msgEvent.data);
+                            reject(error);
                         }
                     };
                 });

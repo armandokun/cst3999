@@ -4,7 +4,7 @@
             <audio autoplay id="source">
                 <source :src="guide.sound" :volume="guide.volume">
             </audio>
-            <div id="center-wrapper">
+            <div class="center-wrapper" v-if="!trainingFinished">
                 <h1>Time Remaining</h1>
                 <h1>{{guide.duration}}</h1>
                 <div id="controls">
@@ -36,13 +36,22 @@
                     </div>
                 </div>
             </div>
+            <div v-else class="center-wrapper">
+                <h1>Time is up!</h1>
+                <h1>Your average score is: {{trainingAverage}}</h1>
+                <p style="margin-top: 20px; font-size: 24px">Practice more to improve it!</p>
+                <button class="primary-btn" style="width: 30%" @click="returnToDashboard">Return to Dashboard</button>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
+    import Training from "./Training";
+
     export default {
         name: "Player",
+        components: Training,
         data() {
             return {
                 guide: {
@@ -52,7 +61,10 @@
                     volume: 1
                 },
                 showRange: false,
-                audioPaused: false
+                audioPaused: false,
+                trainingResults: [],
+                trainingAverage: 0,
+                trainingFinished: false
             }
         },
         methods: {
@@ -76,6 +88,7 @@
             },
             exitSession: function () {
                 if (confirm("Do you want to leave the session?")) {
+                    this.unsubscribeCoreTraining(['com']);
                     this.$router.push('/dashboard');
                 } else {
                     // Must be else statement if want to display the choices in the alert pop up
@@ -86,10 +99,12 @@
                 let audio = document.getElementById('source');
 
                 if (audio.paused) {
+                    this.coreTraining(['com']);
                     audio.play();
                     this.audioPaused = false;
                 } else {
                     audio.pause();
+                    this.unsubscribeCoreTraining(['com']);
                     this.audioPaused = true;
                 }
             },
@@ -100,6 +115,90 @@
                 // Needs to be divided by 10 since the volume range is [0..1]
                 audioSource.volume = volumeController.value / 10;
             },
+            coreTraining: function (stream) {
+                let authToken = sessionStorage.getItem('cortexToken');
+                let sessionId = sessionStorage.getItem('sessionID');
+
+                const SUB_REQUEST_ID = 20;
+                let subRequest = {
+                    'jsonrpc': '2.0',
+                    'method': 'subscribe',
+                    'params': {
+                        'cortexToken': authToken,
+                        'session': sessionId,
+                        'streams': stream
+                    },
+                    'id': SUB_REQUEST_ID
+                };
+
+                let self = this;
+
+                let message = JSON.stringify(subRequest);
+                console.log(`SENT: ${message}`);
+                self.$websocket.send(message);
+
+                return new Promise(function (resolve, reject) {
+                    self.$websocket.onmessage = (msgEvent) => {
+                        console.log(`RESPONSE: ${msgEvent.data}`)
+                        let parsedResult = JSON.parse(msgEvent.data);
+
+                        try {
+                            if (parsedResult['id'] === SUB_REQUEST_ID) {
+                                resolve(parsedResult['result']['id']);
+                            }
+                            // if action names matches then add the result to array
+                            if (parsedResult['com'][0] ===
+                                `${sessionStorage.getItem('guideAction')}`) {
+                                self.trainingResults.push(parsedResult['com'][1]);
+                            }
+                        } catch (error) {
+                            console.log(msgEvent.data);
+                            reject(error);
+                        }
+                    };
+                });
+            },
+            unsubscribeCoreTraining: function (stream) {
+                let authToken = sessionStorage.getItem('cortexToken');
+                let sessionId = sessionStorage.getItem('sessionID');
+
+                const UNSUB_REQUEST_ID = 21;
+                let subRequest = {
+                    'jsonrpc': '2.0',
+                    'method': 'unsubscribe',
+                    'params': {
+                        'cortexToken': authToken,
+                        'session': sessionId,
+                        'streams': stream
+                    },
+                    'id': UNSUB_REQUEST_ID
+                };
+
+                let self = this;
+
+                let message = JSON.stringify(subRequest);
+                console.log(`SENT: ${message}`);
+                self.$websocket.send(message);
+
+                return new Promise(function (resolve, reject) {
+                    self.$websocket.onmessage = (msgEvent) => {
+                        console.log(`RESPONSE: ${msgEvent.data}`)
+                        let parsedResult = JSON.parse(msgEvent.data);
+
+                        try {
+                            if (parsedResult['id'] === UNSUB_REQUEST_ID) {
+                                resolve(parsedResult['result']['id']);
+                            }
+                        } catch (error) {
+                            console.log(msgEvent.data);
+                            reject(error);
+                        }
+                    };
+                });
+            },
+            returnToDashboard: function () {
+                this.$route.push('/dashboard');
+            }
         },
         mounted() {
             let guideTitle = (sessionStorage.getItem('guide')).toLocaleLowerCase();
@@ -113,6 +212,21 @@
                 let duration = audio.duration - audio.currentTime;
                 self.getGuideDuration(duration);
             }
+
+            // subscribe to com - to begin session in LIVE mode
+            this.coreTraining(['com']);
+
+            audio.onended = function () {
+                self.unsubscribeCoreTraining(['com']);
+
+                // Calculating the average score
+                self.trainingResults.forEach(result => self.trainingAverage += result);
+                self.trainingAverage = Math.round((self.trainingAverage / self.trainingResults.length) * 100) / 100
+
+                // display the score
+                self.trainingFinished = true;
+            }
+
         }
     }
 </script>
@@ -175,7 +289,7 @@
         margin-top: 2em;
     }
 
-    #center-wrapper {
+    .center-wrapper {
         grid-column: 1 / f;
         grid-row: 2 / 3;
         Position: absolute;

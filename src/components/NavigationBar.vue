@@ -12,10 +12,6 @@
                     <span class="material-icons">supervised_user_circle</span>
                     Change Profile
                 </router-link>
-                <router-link to="/history" class="static" v-bind:class="{active: path === '/history'}">
-                    <span class="material-icons">history</span>
-                    Show Recordings History
-                </router-link>
         </div>
     </div>
 </template>
