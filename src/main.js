@@ -9,6 +9,8 @@ import Training from "./Training";
 
 Vue.config.productionTip = false
 Vue.prototype.$websocket = new WebSocket("wss://localhost:6868");
+
+/* Change details accordingly to your created app */
 Vue.prototype.$user = {
     'clientId': 'yxLBcYns3MkIe2vYg9yYUQkiPdekPAvzymsO0rlq',
     'clientSecret': '59ajJfvMrYNih1pZXCoB11U8tBGZdS5NRfR8NJeqTGJQ1te2cpEpoPNns4OMTjihsmT6Jt3qcuVq257TEZei76yw1Gk01nn0qXCVsRk9GlhOg96j9JAk36IakYbf9HqX'
@@ -26,7 +28,7 @@ const routes = [
 
 const router = new VueRouter({
     routes: routes,
-    // disable /#/ when routing
+    // disables /#/ in path when navigating
     mode: 'history'
 })
 

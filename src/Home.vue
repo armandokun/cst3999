@@ -31,12 +31,16 @@
         name: 'Home',
         data() {
             return {
+                // Stores profiles from queryProfiles
                 profiles: [],
+                // Display input for creating new profile
                 showInput: false,
+
                 profileName: ""
             }
         },
         methods: {
+            /* This method returns the list of all the training profiles of the current account. */
             queryProfiles: function (authToken) {
                 const QUERY_PROFILE_ID = 3;
                 let queryProfileRequest = {
@@ -68,6 +72,8 @@
                     };
                 });
             },
+
+            /* Creates a new profile */
             createProfile: async function () {
                 if (this.showInput) {
                     let name = this.profileName;
@@ -124,6 +130,9 @@
                     }
                 });
             },
+
+            /* A profile must be loaded first, in order to subscribe to data streams,
+             like 'com' & 'sys */
             loadProfile: async function (profileName) {
                 let authToken = sessionStorage.getItem('cortexToken');
                 let headsetID = sessionStorage.getItem('headsetID');
@@ -193,7 +202,7 @@
                         let parsedResult = JSON.parse(msgEvent.data);
 
                         try {
-                            if("error" in parsedResult) {
+                            if ("error" in parsedResult) {
                                 await ref.unloadProfile();
                                 await ref.loadGuestProfile();
                             }
@@ -208,6 +217,9 @@
                     }
                 });
             },
+
+            /* In case of a need to use different account in the same app session.
+             Current profile must be unloaded to load other one.*/
             unloadProfile: function () {
                 let headsetID = sessionStorage.getItem('headsetID');
                 let cortexToken = sessionStorage.getItem('cortexToken');
@@ -252,6 +264,8 @@
         mounted() {
             let ref = this;
             let queryProfileInterval = setInterval(async () => {
+                // If websocket is not busy retrieving data, then initialize this.
+                // Do not stop until executed.
                 if (this.$websocket.bufferedAmount === 0 && sessionStorage.getItem('cortexToken')) {
                     await ref.queryProfiles(sessionStorage.getItem('cortexToken'))
                         .then(profiles => ref.profiles = profiles);

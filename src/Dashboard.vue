@@ -65,6 +65,7 @@
         data() {
             return {
                 profileName: sessionStorage.getItem('profile'),
+                // Meditation guide on the main div
                 mainAudioGuide: {
                     duration: 10,
                     title: 'Ocean',
@@ -89,10 +90,13 @@
                 currentThreshold: 0,
                 lastTrainingScore: 0,
                 totalTrainingsCompleted: 0,
+
+                // Saves actions from getTrainedSignatureActions
                 actions: []
             }
         },
         methods: {
+            /* This method is to open a session with an EMOTIV headset. */
             createSession: function () {
                 let cortexToken = sessionStorage.getItem('cortexToken');
                 let headsetID = sessionStorage.getItem('headsetID');
@@ -255,6 +259,9 @@
                 this.availableGuides.push(mainAudioGuide);
             },
 
+            /* Sends the user to the right path to train.
+            If neutral and meditation guide's state has been trained for at least 5 times,
+            grant access to Player */
             startTraining: function () {
 
                 // Save details for later usage in Training

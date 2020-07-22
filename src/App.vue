@@ -8,6 +8,9 @@
     export default {
         name: 'App',
         methods: {
+            /* This method is to generate a Cortex access token.
+            Most of the methods of the Cortex API require this token as a parameter.
+            The token is also linked to the EmotivID of the current user and the application.*/
             authorize: function () {
                 const AUTHORIZE_ID = 1;
                 let authorizeRequest = {
@@ -15,6 +18,7 @@
                     'params': {
                         'clientId': this.$user.clientId,
                         'clientSecret': this.$user.clientSecret,
+                        // Change 'debit' to increase or decrease session limit
                         'debit': 50
                     },
                     'id': AUTHORIZE_ID
@@ -44,6 +48,8 @@
                     };
                 })
             },
+            /* Shows details of any headsets connected to the device
+            via USB dongle, USB cable, or Bluetooth. Saves the ID to the sessionStorage*/
             queryHeadsetId: function () {
                 const QUERY_HEADSET_ID = 2;
                 let queryHeadsetRequest = {

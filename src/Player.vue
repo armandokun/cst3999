@@ -60,14 +60,17 @@
                     duration: 0,
                     volume: 1
                 },
+                // Volume Range in Player
                 showRange: false,
                 audioPaused: false,
+
                 trainingResults: [],
                 trainingAverage: 0,
                 trainingFinished: false
             }
         },
         methods: {
+            /* Format time of the guide duration */
             getGuideDuration: function (duration) {
                 // Hours, minutes and seconds
                 let hrs = ~~(duration / 3600);
@@ -86,6 +89,7 @@
 
                 this.guide.duration = ret;
             },
+            /* Stop the meditating session and return to the dashboard*/
             exitSession: function () {
                 if (confirm("Do you want to leave the session?")) {
                     this.unsubscribeCoreTraining(['com']);
@@ -95,6 +99,7 @@
                     console.log('Session continues');
                 }
             },
+            /* Play/Pause meditation guide controller */
             sessionControl: function () {
                 let audio = document.getElementById('source');
 
@@ -108,6 +113,7 @@
                     this.audioPaused = true;
                 }
             },
+            /* Controls Volume of meditation guide */
             volumeControl: function () {
                 let audioSource = document.querySelector('#source');
                 let volumeController = document.querySelector('#volume-controller');
@@ -115,6 +121,8 @@
                 // Needs to be divided by 10 since the volume range is [0..1]
                 audioSource.volume = volumeController.value / 10;
             },
+            /* subscribe method as seen in Training.vue,
+             designed to be specifically used during the meditation sessions */
             coreTraining: function (stream) {
                 let authToken = sessionStorage.getItem('cortexToken');
                 let sessionId = sessionStorage.getItem('sessionID');
@@ -158,6 +166,8 @@
                     };
                 });
             },
+            /* unsubscribe method as seen in Training.vue,
+             designed to be specifically used during the meditation sessions */
             unsubscribeCoreTraining: function (stream) {
                 let authToken = sessionStorage.getItem('cortexToken');
                 let sessionId = sessionStorage.getItem('sessionID');
@@ -214,6 +224,7 @@
             }
 
             // subscribe to com - to begin session in LIVE mode
+            // (LIVE mode dedicated to meditation sessions only)
             this.coreTraining(['com']);
 
             audio.onended = function () {
