@@ -64,7 +64,7 @@
                     this.times = 'time' : this.times = 'times';
             },
 
-            // Assign a sound accordingly to the meditation guide
+            /* Assign a sound accordingly to the meditation guide */
             setActionSound: function () {
                 switch (this.action.name) {
                     case 'push' :
@@ -166,6 +166,7 @@
                     }, 3100);
                 }
             },
+            /* T-countdown */
             countdown: function (seconds) {
                 let counter = {};
 
@@ -197,6 +198,9 @@
                     }, 1000);
                 }
             },
+            /* Subscribe to one or more data streams.
+            After you successfully subscribe to a stream, Cortex(API)
+            will keep sending you data sample objects.*/
             subscribe: function (stream) {
                 let authToken = sessionStorage.getItem('cortexToken');
                 let sessionId = sessionStorage.getItem('sessionID');
@@ -235,6 +239,8 @@
                     };
                 });
             },
+            /* Save Trainings to the profile.
+            To prevent loosing data, save profile after each training iteration */
             saveProfile: function () {
                 let profileName = sessionStorage.getItem('profile');
                 let headsetId = sessionStorage.getItem('headsetID');
@@ -276,6 +282,8 @@
                 });
 
             },
+
+            /* Sends a request to start training mental states - neutral, push, etc. */
             trainRequest: function (action, status) {
                 let authToken = sessionStorage.getItem('cortexToken');
                 let sessionId = sessionStorage.getItem('sessionID');
@@ -396,6 +404,7 @@
                     };
                 });
             },
+            /* Cancel a subscription that was previously created by the subscribe method. */
             unsubscribe: function (stream) {
                 let authToken = sessionStorage.getItem('cortexToken');
                 let sessionId = sessionStorage.getItem('sessionID');
