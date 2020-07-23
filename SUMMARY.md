@@ -1,5 +1,5 @@
 # Table of contents
 
 * [Getting Started](README.md)
-* [Prerequisites](prerequisites.md)
+* [Flow Charts](flow-charts.md)
 
