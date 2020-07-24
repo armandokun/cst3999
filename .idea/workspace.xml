@@ -18,7 +18,7 @@
   <component name="ChangeListManager">
     <list default="true" id="625e523a-c0b2-42a9-a78c-20c64a675a9c" name="Default Changelist" comment="UPDATE: V2 Production Ready / Now changes volume based on focus on the breathing">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Home.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/Home.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -106,7 +106,8 @@
       <workItem from="1595405084906" duration="2237000" />
       <workItem from="1595408275192" duration="723000" />
       <workItem from="1595412773810" duration="5035000" />
-      <workItem from="1595421005594" duration="243000" />
+      <workItem from="1595421005594" duration="383000" />
+      <workItem from="1595570496275" duration="868000" />
     </task>
     <task id="LOCAL-00001" summary="UPDATE: V2 Production Ready / Now changes volume based on focus on the breathing">
       <created>1595420760359</created>
@@ -122,7 +123,14 @@
       <option name="project" value="LOCAL" />
       <updated>1595420912195</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="UPDATE: V2.1 Production Ready / Deleted Guest Profile function / Styling Changes">
+      <created>1595421451097</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1595421451097</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -136,7 +144,7 @@
             <State>
               <option name="CUSTOM_BOOLEAN_PROPERTIES">
                 <map>
-                  <entry key="Show.Git.Branches" value="false" />
+                  <entry key="Show.Git.Branches" value="true" />
                 </map>
               </option>
               <option name="FILTERS">
@@ -159,33 +167,34 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="UPDATE: V2 Production Ready / Now changes volume based on focus on the breathing" />
-    <option name="LAST_COMMIT_MESSAGE" value="UPDATE: V2 Production Ready / Now changes volume based on focus on the breathing" />
+    <MESSAGE value="UPDATE: V2.1 Production Ready / Deleted Guest Profile function / Styling Changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="UPDATE: V2.1 Production Ready / Deleted Guest Profile function / Styling Changes" />
   </component>
   <component name="WindowStateProjectService">
     <state x="354" y="209" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1594472634032">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
     <state x="354" y="209" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1280.800@0.0.1280.800" timestamp="1594472634032" />
-    <state width="1259" height="112" key="GridCell.Tab.0.bottom" timestamp="1595421208577">
+    <state width="1259" height="125" key="GridCell.Tab.0.bottom" timestamp="1595421477404">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state width="1259" height="112" key="GridCell.Tab.0.bottom/0.0.1280.800@0.0.1280.800" timestamp="1595421208577" />
-    <state width="1259" height="112" key="GridCell.Tab.0.center" timestamp="1595421208573">
+    <state width="1259" height="125" key="GridCell.Tab.0.bottom/0.0.1280.800@0.0.1280.800" timestamp="1595421477404" />
+    <state width="1259" height="125" key="GridCell.Tab.0.center" timestamp="1595421477403">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state width="1259" height="112" key="GridCell.Tab.0.center/0.0.1280.800@0.0.1280.800" timestamp="1595421208573" />
-    <state width="1259" height="112" key="GridCell.Tab.0.left" timestamp="1595421208570">
+    <state width="1259" height="125" key="GridCell.Tab.0.center/0.0.1280.800@0.0.1280.800" timestamp="1595421477403" />
+    <state width="1259" height="125" key="GridCell.Tab.0.left" timestamp="1595421477402">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state width="1259" height="112" key="GridCell.Tab.0.left/0.0.1280.800@0.0.1280.800" timestamp="1595421208570" />
-    <state width="1259" height="112" key="GridCell.Tab.0.right" timestamp="1595421208575">
+    <state width="1259" height="125" key="GridCell.Tab.0.left/0.0.1280.800@0.0.1280.800" timestamp="1595421477402" />
+    <state width="1259" height="125" key="GridCell.Tab.0.right" timestamp="1595421477403">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state width="1259" height="112" key="GridCell.Tab.0.right/0.0.1280.800@0.0.1280.800" timestamp="1595421208575" />
-    <state x="240" y="140" key="Vcs.Push.Dialog.v2" timestamp="1595420914457">
+    <state width="1259" height="125" key="GridCell.Tab.0.right/0.0.1280.800@0.0.1280.800" timestamp="1595421477403" />
+    <state x="240" y="140" key="Vcs.Push.Dialog.v2" timestamp="1595421455623">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state x="240" y="140" key="Vcs.Push.Dialog.v2/0.0.1280.800@0.0.1280.800" timestamp="1595420914457" />
+    <state x="240" y="140" key="Vcs.Push.Dialog.v2/0.0.1280.800@0.0.1280.800" timestamp="1595421455623" />
     <state x="428" y="321" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1594412156515">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
@@ -194,9 +203,9 @@
       <screen x="0" y="0" width="1280" height="800" />
     </state>
     <state width="600" height="428" key="javadoc.popup/0.0.1280.800@0.0.1280.800" timestamp="1594819602337" />
-    <state x="305" y="124" width="670" height="676" key="search.everywhere.popup" timestamp="1595421208531">
+    <state x="305" y="124" width="670" height="676" key="search.everywhere.popup" timestamp="1595421400665">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state x="305" y="124" width="670" height="676" key="search.everywhere.popup/0.0.1280.800@0.0.1280.800" timestamp="1595421208531" />
+    <state x="305" y="124" width="670" height="676" key="search.everywhere.popup/0.0.1280.800@0.0.1280.800" timestamp="1595421400665" />
   </component>
 </project>

@@ -8,13 +8,60 @@
     export default {
         name: 'App',
         methods: {
+            /* Request user approval for the current application through EMOTIV App.
+            When your application calls this method for the first time, EMOTIV App displays a message to approve your application.
+            You can call this API many times, but EMOTIV App will prompt the user only once.
+            If the user has already approved your application, then this API does nothing. */
+            requestAccess: function () {
+                const REQUEST_ACCESS_ID = 0;
+                let accessRequest = {
+                    "id": REQUEST_ACCESS_ID,
+                    "jsonrpc": "2.0",
+                    "method": "requestAccess",
+                    "params": {
+                        "clientId": this.$user.clientId,
+                        "clientSecret": this.$user.clientSecret
+                    }
+                }
+
+                let ref = this;
+
+                let message = JSON.stringify(accessRequest);
+                console.log(`SENT: ${message}`);
+                ref.$websocket.send(message);
+
+                return new Promise((resolve, reject) => {
+                        ref.$websocket.onmessage = (msgEvent) => {
+                            console.log(`RESPONSE: ${msgEvent.data}`);
+                            try {
+                                let parsedResult = JSON.parse(msgEvent.data);
+                                if (parsedResult['id'] === REQUEST_ACCESS_ID) {
+                                    if (parsedResult['result']['accessGranted']) {
+                                        resolve('The User has granted access right to this application.');
+                                    } else if (!parsedResult['result']['accessGranted']) {
+                                        alert('The User has not granted access right to this application. Please use Emotiv App to proceed.');
+                                    } else {
+                                        console.log(parsedResult);
+                                        reject();
+                                    }
+                                }
+                            } catch (error) {
+                                console.log(msgEvent.data);
+                                reject(error);
+                            }
+                        }
+                        ;
+                    }
+                )
+            },
             /* This method is to generate a Cortex access token.
             Most of the methods of the Cortex API require this token as a parameter.
             The token is also linked to the EmotivID of the current user and the application.*/
             authorize: function () {
                 const AUTHORIZE_ID = 1;
                 let authorizeRequest = {
-                    'jsonrpc': '2.0', 'method': 'authorize',
+                    'jsonrpc': '2.0',
+                    'method': 'authorize',
                     'params': {
                         'clientId': this.$user.clientId,
                         'clientSecret': this.$user.clientSecret,
@@ -91,6 +138,7 @@
             let ref = this;
             this.$websocket.onopen = async function () {
                 console.log('WebSocket is connected');
+                await ref.requestAccess();
                 await ref.authorize()
                     .then(cortexToken => sessionStorage.setItem('cortexToken', cortexToken));
                 await ref.queryHeadsetId()
