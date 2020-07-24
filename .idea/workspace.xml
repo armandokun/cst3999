@@ -18,7 +18,7 @@
   <component name="ChangeListManager">
     <list default="true" id="625e523a-c0b2-42a9-a78c-20c64a675a9c" name="Default Changelist" comment="UPDATE: V2 Production Ready / Now changes volume based on focus on the breathing">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Dashboard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/Dashboard.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,6 +33,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="94564fefb6e17d2b86e255a79f7bf4cb1030cdf4" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1eVSr8jp5oO0NG4Y7kG51FSi72U" />
@@ -108,6 +113,7 @@
       <workItem from="1595412773810" duration="5035000" />
       <workItem from="1595421005594" duration="383000" />
       <workItem from="1595570496275" duration="868000" />
+      <workItem from="1595576465910" duration="547000" />
     </task>
     <task id="LOCAL-00001" summary="UPDATE: V2 Production Ready / Now changes volume based on focus on the breathing">
       <created>1595420760359</created>
@@ -191,10 +197,10 @@
       <screen x="0" y="0" width="1280" height="800" />
     </state>
     <state width="1259" height="125" key="GridCell.Tab.0.right/0.0.1280.800@0.0.1280.800" timestamp="1595421477403" />
-    <state x="240" y="140" key="Vcs.Push.Dialog.v2" timestamp="1595421455623">
+    <state x="240" y="140" key="Vcs.Push.Dialog.v2" timestamp="1595572205904">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state x="240" y="140" key="Vcs.Push.Dialog.v2/0.0.1280.800@0.0.1280.800" timestamp="1595421455623" />
+    <state x="240" y="140" key="Vcs.Push.Dialog.v2/0.0.1280.800@0.0.1280.800" timestamp="1595572205904" />
     <state x="428" y="321" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1594412156515">
       <screen x="0" y="0" width="1280" height="800" />
     </state>

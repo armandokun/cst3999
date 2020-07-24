@@ -19,8 +19,9 @@
                     <span class="material-icons">
                         info
                     </span>
-                    <span class="tooltiptext">The training threshold provides an indication of
-                        minimum threshold that you should target for when training the action.</span>
+                    <span class="tooltiptext">The training threshold provides
+                        an indication of minimum threshold that you
+                        should target during the meditation session..</span>
                 </div>
                 <h4 class="tab-title">Current Threshold</h4>
                 <div class="tab-score">{{currentThreshold}}</div>
@@ -30,9 +31,10 @@
                     <span class="material-icons">
                         info
                     </span>
-                    <span class="tooltiptext">Any training score above the threshold is very likely
-                        to improve your profile. Any training significantly
-                        below the threshold is likely to reduce the quality of your profile.</span>
+                    <span class="tooltiptext">Any meditation session score above
+                        the threshold is very likely to improve your profile.
+                        Any meditating score significantly below the threshold is
+                        likely to reduce the quality of your profile.</span>
                 </div>
                 <h4 class="tab-title">Last Training Score</h4>
                 <div class="tab-score">{{lastTrainingScore}}</div>
