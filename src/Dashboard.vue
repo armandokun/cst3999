@@ -77,7 +77,7 @@
                 availableGuides: [
                     {
                         title: 'Rain',
-                        duration: 15,
+                        duration: 10,
                         img: require('./assets/img/rain.jpg'),
                         action: 'lift'
                     },
