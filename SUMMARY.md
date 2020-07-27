@@ -1,5 +1,6 @@
 # Table of contents
 
 * [Getting Started](README.md)
-* [Flow Charts](flow-charts.md)
+* [Core Concepts](training-concepts.md)
+* [App Guide](app-guide.md)
 

@@ -1,32 +1,26 @@
----
-description: >-
-  For a more delightful experience, visit
-  https://armandasvaicikauskas.gitbook.io/cst3999-software-documentation/
----
-
 # Getting Started
 
 ## Abstract
 
-You are about to embark in the reading of the documentation that contains instructions to run my undergraduate final project. 
+You are about to embark in the study of documentation that holds instructions to run my final undergraduate project.
 
 The project's main goal was to develop a neurofeedback-assisted meditation software which will provide auditory cues if and when the subjects’ mind starts to wander. To alert the user, the application will slowly increase the volume of the meditating guide until the point when the participant returns to their centre of focus, ordinarily breath.
 
-The project's engine is built with Vue.js using Cortex API - the core piece of technology at EMOTIV which brings the brain computer interface to consumer.
+The project's engine is built with Vue.js using Cortex API - the core piece of technology at EMOTIV which brings the brain**-**computer interface to consumer.
 
 The Cortex API is built on JSON and WebSockets, making it easy to access from a variety of programming languages and platforms.
 
 ## Supported Software & Hardware
 
-The headset I worked with for this project, is called _Emotiv EPOC+_. The project has been successfully developed by using _MacOS Catalina_.   
-Other platforms and hardware that could support this app are listed on the official [Cortex API documentation](https://emotiv.gitbook.io/cortex-api/), below 'Getting Started' article.
+The headset I was using with for this project, is called _Emotiv EPOC+_. The project has been successfully developed by using _MacOS Catalina with MacBook Pro 13" 2015_.   
+Other platforms and hardware that could support this app are listed on the official [Cortex API documentation](https://emotiv.gitbook.io/cortex-api/) below 'Getting Started' article.
 
 ## Prerequisites
 
-To be able to run this project, a few actions must be completed prior to launching:
+To be able to run this project, a few actions must be completed prior to  launching:
 
 {% hint style="info" %}
-**Mind the fact, when trying to initialise this project, one of the EMOTIV's neuro-headsets must be presented.**
+**Mind the fact, when trying to initialise this project, one of the EMOTIV headsets must be presented.**
 {% endhint %}
 
 ### Create an Emotiv ID
@@ -48,7 +42,15 @@ Create the **application ID** and generate the corresponding **client ID** and *
 
 
 
+## Initiate The Project
 
+After you have created both the Emotiv ID and the Cortex App, the next step is to start up the project. Below, you will find a detailed flowchart to help you out during the processes. **Make sure you have downloaded the code from the** [**repository**](https://github.com/armandokun/cst3999) **and the installer \(**[**Emotiv Installer V2.5.3**](https://www.emotiv.com/my-account/downloads/)**\) to follow the flow.**
 
+![The Flowchart of &quot;How To Start Up The App&quot;](.gitbook/assets/start-flowchart-1-.png)
 
+According to the Cortex API documentation, you should run several methods \([requestAccess](https://emotiv.gitbook.io/cortex-api/authentication/requestaccess), [authorize](https://emotiv.gitbook.io/cortex-api/authentication/authorize), [etc](https://emotiv.gitbook.io/cortex-api/overview-of-api-flow).\) to ensure the ability for successfully carrying out the functionality of the project. Fortunately, these processes are implemented in the project already. As a result, the methods will execute automatically, when running the project by typing `npm run serve` in the terminal - inside the project's root directory. 
+
+{% hint style="danger" %}
+Most of the methods of the API will fail if you did not approve the application.
+{% endhint %}
 
