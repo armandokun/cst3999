@@ -2,9 +2,7 @@
 
 ## Abstract
 
-You are about to embark in the study of documentation that holds instructions to run my final undergraduate project.
-
-The project's main goal was to develop a neurofeedback-assisted meditation software which will provide auditory cues if and when the subjects’ mind starts to wander. To alert the user, the application will slowly increase the volume of the meditating guide until the point when the participant returns to their centre of focus, ordinarily breath.
+The project's main goal was to develop a neurofeedback-assisted meditation software which will provide auditory cues if and when the subjects’ mind starts to wander. To alert the user, the application will slowly increase the volume of the meditating guide until the point when the participant returns to their centre of focus, ordinarily to conscious breathing.
 
 The project's engine is built with Vue.js using Cortex API - the core piece of technology at EMOTIV which brings the brain**-**computer interface to consumer.
 
@@ -12,7 +10,7 @@ The Cortex API is built on JSON and WebSockets, making it easy to access from a 
 
 ## Supported Software & Hardware
 
-The headset I was using with for this project, is called _Emotiv EPOC+_. The project has been successfully developed by using _MacOS Catalina with MacBook Pro 13" 2015_.   
+The headset I was using for this project, is called _Emotiv EPOC+_. The project has been successfully developed by using _MacOS Catalina with MacBook Pro 13" 2015_.   
 Other platforms and hardware that could support this app are listed on the official [Cortex API documentation](https://emotiv.gitbook.io/cortex-api/) below 'Getting Started' article.
 
 ## Prerequisites
@@ -20,7 +18,7 @@ Other platforms and hardware that could support this app are listed on the offic
 To be able to run this project, a few actions must be completed prior to  launching:
 
 {% hint style="info" %}
-**Mind the fact, when trying to initialise this project, one of the EMOTIV headsets must be presented.**
+**Mind the fact, when trying to initialise this project, one of the EMOTIV headsets must be present.**
 {% endhint %}
 
 ### Create an Emotiv ID

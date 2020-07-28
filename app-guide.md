@@ -18,7 +18,7 @@ Once the profile is selected you will be redirected to the Dashboard.
 
 If you are joining with a new user, this is what it should look like when redirected from Dashboard. 
 
-The similar view of the Dashboard is presented when the user \(you\) has selected a profile which completed necessary training sessions. 
+A similar view of the Dashboard is presented when the user \(you\) has selected a profile which completed necessary training sessions. 
 
 ![Dashboard page \(Experienced User\)](.gitbook/assets/screenshot-2020-07-24-at-11.05.29%20%281%29.png)
 
@@ -34,7 +34,7 @@ Any meditation session score above the threshold is very likely to improve your 
 
 
 
-**Trainings Completed** displays the total of all trainings completed. Five trainings for each guide available and the other five for training the neutral brain state \(in total of 20\). 
+**Trainings Completed** displays the total of all trainings completed. Five trainings for each guide available and the other five for training the neutral brain state \(20 in total\). 
 
 _/\*The better design choice would be, to make a total number of  Meditating Sessions Completed instead, but due to the API design, it is not possible since the Brain-Computer Interface API does not record the sessions and the data is being withdrawn from Emotiv Cloud.\*/_
 
@@ -52,7 +52,7 @@ Depending on the situation, whether the user has created a new profile or select
 
 ### Training
 
-This page allows users to train themselves first \(using [Training mode](training-concepts.md)\), to start meditating sessions. The App does not allow users to experience sittings before practising their neutral and selected guide brain states. The practice must be taken at least ten times, including the training with neutral brain state and the picked guide. The following is the sequence of steps that the user would normally go through.
+This page allows users to train themselves first \(using [Training mode](training-concepts.md)\), to start meditation sessions. The App does not allow users to experience sittings before practising their neutral and selected guide brain states. The practice must be taken at least ten times, including the training with neutral brain state and the picked guide. The following is the sequence of steps that the user would normally go through.
 
 #### Before the Training
 

@@ -20,7 +20,7 @@ This flowchart shows the sequence of steps that are required to undergo in order
 
 ![Training Mode](.gitbook/assets/training-flowchart.png)
 
-Have you successfully trained your first mental command? If yes, then congratulations! The next step to take is, press Play icon on the wanted meditation guide and follow the instructions. 
+Have you successfully trained your first mental command? If yes, then congratulations! The next step to take is, press Play icon on the aspired meditation guide and follow the instructions. 
 
 ### Live Mode
 
@@ -28,7 +28,7 @@ The next concept is the **Live mode**. During the meditation session, the app is
 
 In the end, you will be prompted an average score of all the averages that were calculated during the session. 
 
-The flowchart below shows the simplified version of a sequence of steps that are required to complete, to receive the average score of the meditation session.
+The flowchart below shows the simplified version of a sequence of steps that are required to be completed to receive the average score of the meditation session.
 
 ![Live Mode](.gitbook/assets/live-mode-flowchart.png)
 
