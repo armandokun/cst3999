@@ -1,3 +1,5 @@
+# For a better view, visit: [documentation](https://armandasvaicikauskas.gitbook.io/cst3999)
+
 # Getting Started
 
 ## Abstract
